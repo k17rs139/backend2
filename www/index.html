@@ -8,14 +8,28 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="keys.js"></script>
   <script>
+
+
     var ncmb = new NCMB(appKey, clientKey);
     var UTdata = ncmb.DataStore("UpdateTest");
     var key = "message";
 
+    var now = new Date();
+
+    var year =now.getFullYear();
+    var month = now.getMonth()+1;
+    var week = now.getDay();
+    var day =now.getDate();
+
+    var yobi = new Array("日","月","火","水","木","金","土");
+    document.write("西暦"+year+"年"+month+"月"+day+"日"+yobi[week]+"曜日");
+
+
+
     function enterData() {
       var uTdata = new UTdata();
-      var value = parseInt($("#data").val());
-      uTdata.set(key, value)
+      var value = ($("#data").val());
+      uTdata.set(key, value)//keyにデータを格納
       .save()
       .then(function(results){
         $("#display").removeClass();
@@ -34,7 +48,7 @@
       .then(function(results){
         var msg="";
         for(var i=0; i<results.length; i++){
-          msg += results[i].get(key) + "<br>";
+          msg += "西暦"+year+"年"+month+"月"+day+"日"+yobi[week]+"曜日"+"<br>"+ results[i].get(key) + "<br>";
         }
         $("#display").removeClass();
         $("#display").addClass("text-light");
@@ -65,7 +79,7 @@
     function updateData() {
       UTdata.fetch()
       .then(function(uTdata){
-      var value = parseInt($("#update").val());
+      var value = ($("#update").val());
       uTdata.set(key,value);
       return uTdata.update();
       })
@@ -100,7 +114,7 @@
       .then(function(results){
         var msg ="";
         for(var i= 0;i<results.length;i++){
-          msg += results[i].get(key)+"<br>";
+          msg += "<time></time>"+results[i].get(key)+"<br>";
         }
         $("#display").removeClass();
         $("#display").addClass("text-light");
@@ -113,12 +127,13 @@
         $("#display").html("delete fail:"+JSON.stringify(error));
       })
     }
+    
   </script>
 </head>
 <body>
-  <h1>backend test 2</h1>
+  <h1></h1>
   <div>
-    <input type="text" id="data" placeholder="スコア"> 
+    <input type="text" id="data" placeholder="記入"> 
     <a onclick="enterData()" class="btn btn-outline-secondary" role="button">Enter</a>
   </div>
   <div>
