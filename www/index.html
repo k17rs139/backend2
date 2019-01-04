@@ -10,17 +10,15 @@
   <script>
 
 
+
     var ncmb = new NCMB(appKey, clientKey);
     var UTdata = ncmb.DataStore("UpdateTest");
     var key = "message";
-
     var now = new Date();
-
     var year =now.getFullYear();
     var month = now.getMonth()+1;
     var week = now.getDay();
     var day =now.getDate();
-
     var yobi = new Array("日","月","火","水","木","金","土");
     document.write("西暦"+year+"年"+month+"月"+day+"日"+yobi[week]+"曜日");
 
@@ -46,9 +44,9 @@
     function fetchAll() {
       UTdata.fetchAll()
       .then(function(results){
-        var msg="";
+        var msg= "";
         for(var i=0; i<results.length; i++){
-          msg += "西暦"+year+"年"+month+"月"+day+"日"+yobi[week]+"曜日"+"<br>"+ results[i].get(key) + "<br>";
+          msg += results[i].get(key) + "<br>";
         }
         $("#display").removeClass();
         $("#display").addClass("text-light");
@@ -109,29 +107,11 @@
       })
     }
 
-    function sortData() {
-        UTdata.order(key,true).fetchAll()
-      .then(function(results){
-        var msg ="";
-        for(var i= 0;i<results.length;i++){
-          msg += "<time></time>"+results[i].get(key)+"<br>";
-        }
-        $("#display").removeClass();
-        $("#display").addClass("text-light");
-        $("#display").addClass("bg-primary");
-        $("#display").html(msg);
-      })
-      .catch(function(error){
-        $("#display").removeClass();
-        $("#display").addClass("bg-warning");
-        $("#display").html("delete fail:"+JSON.stringify(error));
-      })
-    }
-    
+   
   </script>
 </head>
 <body>
-  <h1></h1>
+  <h1>memo</h1>
   <div>
     <input type="text" id="data" placeholder="記入"> 
     <a onclick="enterData()" class="btn btn-outline-secondary" role="button">Enter</a>
@@ -140,7 +120,7 @@
     <a onclick="fetchAll()" class="btn btn-outline-secondary" role="buton">Fetch All</a>
     <a onclick="deleteData()" class="btn btn-outline-primary" role="buton">Delete</a>
     <a onclick="countData()" class="btn btn-outline-primary" role="button">Count</a>
-    <a onclick="sortData()" class="btn btn-outline-primary" role="button">Sort</a>
+   
   </div>
   <div>
     <input type="text" id="update" placeholder="更新">
