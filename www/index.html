@@ -8,17 +8,27 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="keys.js"></script>
   <script>
-
     var ncmb = new NCMB(appKey, clientKey);
     var UTdata = ncmb.DataStore("UpdateTest");
     var key = "message";
+
+    function Clock(){
     var now = new Date();
     var year =now.getFullYear();
     var month = now.getMonth()+1;
     var week = now.getDay();
     var day =now.getDate();
+    var hour= now.getHours();
+    var min = now.getMinutes();
+    var sec = now.getSeconds();
     var yobi = new Array("日","月","火","水","木","金","土");
-   document.write("西暦"+year+"年"+month+"月"+day+"日"+yobi[week]+"曜日");
+    var msg = ("西暦"+year+"年"+month+"月"+day+"日"+yobi[week]+"曜日"+hour+"時"+min+"分"+sec+"秒");
+   document.getElementById("RealtimeClockArea").innerHTML = msg;
+    }
+   setInterval('Clock()',1000);
+    
+
+   
     
     function enterData() {
       var uTdata = new UTdata();
@@ -40,9 +50,20 @@
     function fetchAll() {
       UTdata.fetchAll()
       .then(function(results){
-        var msg= "";
+         var now = new Date();
+        var year =now.getFullYear();
+        var month = now.getMonth()+1;
+        var week = now.getDay();
+        var day =now.getDate();
+        var hour= now.getHours();
+        var min = now.getMinutes();
+        var sec = now.getSeconds();
+        var yobi = new Array("日","月","火","水","木","金","土");
+        var clock = ("西暦"+year+"年"+month+"月"+day+"日"+yobi[week]+"曜日"+hour+"時"+min+"分"+sec+"秒");
+        
+        var msg="";
         for(var i=0; i<results.length; i++){
-          msg += results[i].get(key) + "<br>";
+          msg += clock+"<br>"+ results[i].get(key) + "<br>";
         }
         $("#display").removeClass();
         $("#display").addClass("text-light");
@@ -107,7 +128,7 @@
   </script>
 </head>
 <body>
-<time>2011-12-03</time>
+  <p id="RealtimeClockArea"></p>
   <h1>Memo帳</h1>
   <div>
     <input type="text" id="data" placeholder="記入"> 
