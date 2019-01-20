@@ -11,6 +11,7 @@
     var ncmb = new NCMB(appKey, clientKey);
     var UTdata = ncmb.DataStore("UpdateTest");
     var key = "message";
+    var key2 ="message2";
 
     function Clock(){
     var now = new Date();
@@ -34,6 +35,17 @@
       var uTdata = new UTdata();
       var value = ($("#data").val());
       uTdata.set(key, value)//keyにデータを格納
+        var now = new Date();
+        var year =now.getFullYear();
+        var month = now.getMonth()+1;
+        var week = now.getDay();
+        var day =now.getDate();
+        var hour= now.getHours();
+        var min = now.getMinutes();
+        var sec = now.getSeconds();
+        var yobi = new Array("日","月","火","水","木","金","土");
+        var clock = ("西暦"+year+"年"+month+"月"+day+"日"+"("+yobi[week]+")"+hour+"時"+min+"分"+sec+"秒");
+      uTdata.set(key2,clock)
       .save()
       .then(function(results){
         $("#display").removeClass();
@@ -50,21 +62,11 @@
     function fetchAll() {
       UTdata.fetchAll()
       .then(function(results){
-         var now = new Date();
-        var year =now.getFullYear();
-        var month = now.getMonth()+1;
-        var week = now.getDay();
-        var day =now.getDate();
-        var hour= now.getHours();
-        var min = now.getMinutes();
-        var sec = now.getSeconds();
-        var yobi = new Array("日","月","火","水","木","金","土");
-        var clock = ("西暦"+year+"年"+month+"月"+day+"日"+yobi[week]+"曜日"+hour+"時"+min+"分"+sec+"秒");
-        
         var msg="";
         for(var i=0; i<results.length; i++){
-          msg += clock+"<br>"+ results[i].get(key) + "<br>";
+          msg += results[i].get(key2)+"<br>"+ results[i].get(key) + "<br>";
         }
+
         $("#display").removeClass();
         $("#display").addClass("text-light");
         $("#display").addClass("bg-primary");
@@ -94,6 +96,7 @@
     function updateData() {
       UTdata.fetch()
       .then(function(uTdata){
+     
       var value = ($("#update").val());
       uTdata.set(key,value);
       return uTdata.update();
@@ -124,6 +127,8 @@
       })
     }
 
+    
+
    
   </script>
 </head>
@@ -146,6 +151,6 @@
   <div id="display" class="text-light bg-info">
     Results
   </div>
-
+  
 </body>
 </html>
