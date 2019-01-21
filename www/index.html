@@ -11,7 +11,7 @@
     var ncmb = new NCMB(appKey, clientKey);
     var UTdata = ncmb.DataStore("UpdateTest");
     var key = "message";
-    var key2 ="message2";
+    var key2 ="YMDWHMS";
 
     function Clock(){
     var now = new Date();
@@ -94,12 +94,24 @@
     }
 
     function updateData() {
-      UTdata.fetch()
+      UTdata.fetchAll()
       .then(function(uTdata){
-     
       var value = ($("#update").val());
-      uTdata.set(key,value);
-      return uTdata.update();
+      
+      uTdata[uTdata.length-1].set(key,value);
+
+       var now = new Date();
+        var year =now.getFullYear();
+        var month = now.getMonth()+1;
+        var week = now.getDay();
+        var day =now.getDate();
+        var hour= now.getHours();
+        var min = now.getMinutes();
+        var sec = now.getSeconds();
+        var yobi = new Array("日","月","火","水","木","金","土");
+        var clock = ("西暦"+year+"年"+month+"月"+day+"日"+"("+yobi[week]+")"+hour+"時"+min+"分"+sec+"秒");
+      uTdata[uTdata.length-1].set(key2,clock)
+      return uTdata[uTdata.length-1].update();
       })
       .then(function(results){
         $("#display").removeClass();
